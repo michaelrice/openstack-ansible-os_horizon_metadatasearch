@@ -3,5 +3,5 @@
   roles:
     - os_horizon_metadatasearch
   vars_files:
-    #- group_vars/all.yml
+    - group_vars/all.yml
     - "{{ osa_roles_path }}/os_horizon/defaults/main.yml"
