@@ -46,7 +46,7 @@
     path: "{{ item.dest }}"
     state: link
   with_items:
-    - { src: "{{ horizon_venv_lib_dir }}//enabled/_50_metasearch.py", dest: "{{ horizon_venv_lib_dir }}/openstack_dashboard/local/enabled/_50_metasearch.py" }
+    - { src: "{{ horizon_venv_lib_dir }}/metasearchdashboard/enabled/_50_metasearch.py", dest: "{{ horizon_venv_lib_dir }}/openstack_dashboard/local/enabled/_50_metasearch.py" }
   notify: Restart apache2
   tags:
     - horizon-configs

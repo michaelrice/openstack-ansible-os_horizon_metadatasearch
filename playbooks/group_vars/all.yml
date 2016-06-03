@@ -1,2 +1,3 @@
 # This is the location where the rpc repository was checked out
 osa_roles_path: /opt/openstack-ansible/playbooks/roles
+osa_inventory_path: /opt/openstack-ansible/playbooks

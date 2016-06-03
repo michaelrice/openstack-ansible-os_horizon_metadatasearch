@@ -5,3 +5,4 @@ horizon_metadatasearch_pip_packages: []
 # liberty 12.0.14
 openstack_release: 12.0.14
 horizon_venv_bin: "/openstack/venvs/horizon-{{ openstack_release }}/bin"
+horizon_venv_lib_dir: "{{ horizon_venv_bin | dirname }}/lib/python2.7/site-packages"
