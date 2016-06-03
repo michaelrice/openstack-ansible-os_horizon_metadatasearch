@@ -1,0 +1,52 @@
+---
+# Copyright 2016, Rackspace US, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: Clone Horizon metadatasearch repo
+  git:
+    repo: "{{ horizon_metadatasearch_git_repo }}"
+    dest: "{{ horizon_metadatasearch_dest_dir }}"
+    version: "{{ horizon_metadatasearch_git_install_branch }}"
+
+- name: Install Horizon plugin
+  command: "{{ horizon_venv_bin }}/pip install ."
+  args:
+    chdir: '{{ horizon_metadatasearch_dest_dir }}'
+  become: true
+  notify: Restart apache2
+
+- name: Install pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+    extra_args: "{{ pip_install_options | default('') }}"
+  register: install_pip_packages
+  until: install_pip_packages|success
+  retries: 5
+  delay: 2
+  with_items: horizon_metadatasearch_pip_packages
+  tags:
+    - horizon-metadatasearch-install
+    - horizon-metadatasearch-pip-packages
+
+- name: Enable the metadatasearch dashboard Horizon panel
+  file:
+    src: "{{ item.src }}"
+    path: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: "{{ horizon_venv_lib_dir }}//enabled/_50_metasearch.py", dest: "{{ horizon_venv_lib_dir }}/openstack_dashboard/local/enabled/_50_metasearch.py" }
+  notify: Restart apache2
+  tags:
+    - horizon-configs

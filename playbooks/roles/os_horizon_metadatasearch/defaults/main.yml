@@ -1,0 +1,4 @@
+horizon_extensions_git_repo: https://github.com/michaelrice/horizon_metadata_search
+horizon_metadatasearch_git_install_branch: stable/liberty
+horizon_metadatasearch_dest_dir: /opt/rackspace/horizon-metadatasearch
+horizon_metadatasearch_pip_packages: []
